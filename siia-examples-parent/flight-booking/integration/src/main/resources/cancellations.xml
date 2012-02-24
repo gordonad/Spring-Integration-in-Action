@@ -2,10 +2,13 @@
 <beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="http://www.springframework.org/schema/integration"
-             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-             http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans.xsd
+               http://www.springframework.org/schema/integration
+               http://www.springframework.org/schema/integration/spring-integration.xsd">
 
     <channel id="input"/>
+    <channel id="inbound"/>
 
     <channel id="validated"/>
 
@@ -18,17 +21,17 @@
     </channel>
 
     <gateway id="cancellationsGateway"
-             service-interface="siia.booking.integration.cancellation.CancellationsGateway"
+             service-interface="com.manning.siia.booking.integration.cancellation.CancellationsGateway"
              default-request-channel="input"/>
 
 
     <!--<filter id="cancellationsFilter" input-channel="input" ref="cancellationsFilterBean" method="accept"-->
-            <!--discard-channel="rejected"-->
-            <!--output-channel="validated"/>-->
+    <!--discard-channel="rejected"-->
+    <!--output-channel="validated"/>-->
 
     <!--<beans:bean id="cancellationsFilterBean"-->
-                <!--class="siia.booking.integration.cancellation.CancellationRequestFilter">-->
-       <!--<beans:property name="pattern" value="GOLD[A-Z0-9]{6}+"/>-->
+    <!--class="siia.booking.integration.cancellation.CancellationRequestFilter">-->
+    <!--<beans:property name="pattern" value="GOLD[A-Z0-9]{6}+"/>-->
     <!--</beans:bean>-->
 
     <!-- An expression based filter bean - could replace the two bean definitions above -->
@@ -38,11 +41,13 @@
             output-channel="validated"/>
 
 
-
-    <service-activator id="goldCancellationsProcessor" input-channel="inbound" ref="cancellationsService"
-                       method="cancel" output-channel="confirmed"/>
+    <service-activator id="goldCancellationsProcessor"
+                       input-channel="inbound"
+                       ref="cancellationsService"
+                       method="cancel"
+                       output-channel="confirmed"/>
 
     <beans:bean id="cancellationsService"
-                class="siia.booking.domain.cancellation.StubCancellationsService"/>
+                class="com.manning.siia.booking.domain.cancellation.StubCancellationsService"/>
 
 </beans:beans>

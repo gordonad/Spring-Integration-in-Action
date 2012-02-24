@@ -1,13 +1,13 @@
 package com.manning.siia.trip.diary;
 
-import static org.junit.Assert.assertThat;
 import org.junit.Test;
-import static org.junit.matchers.JUnitMatchers.containsString;
-import static org.mockito.Mockito.mock;
-
 import org.springframework.integration.Message;
 
 import java.lang.management.ManagementFactory;
+
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
+import static org.mockito.Mockito.mock;
 
 /**
  * @author Iwein Fuld

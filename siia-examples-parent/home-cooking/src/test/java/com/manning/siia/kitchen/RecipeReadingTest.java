@@ -20,29 +20,29 @@ import static org.junit.Assert.assertThat;
 
 /**
  */
-@ContextConfiguration(locations = {"/TEST-home-dinner-flow.xml", "/TEST-recipe-reader.xml"})
+@ContextConfiguration(locations = {"/home-dinner-flow-test.xml", "/recipe-reader-test.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RecipeReadingTest {
 
-	@Autowired
-	private TemporaryFolder recipeBookLocation;
+    @Autowired
+    private TemporaryFolder recipeBookLocation;
 
     @Autowired
     private PollableChannel test;
 
-	@Test
-	public void shouldReadFileInDirectoryToMessage() throws IOException {
-		File resource = new ClassPathResource("/pilav.xml").getFile();
-		//copy
-		File recipeWriting = recipeBookLocation.newFile("pilav.xml.writing");
-		FileUtils.copyFile(resource, recipeWriting);
-		//then rename
-		final File outFile = recipeBookLocation.newFile("pilav.xml");
-		recipeWriting.renameTo(outFile);
+    @Test
+    public void shouldReadFileInDirectoryToMessage() throws IOException {
+        File resource = new ClassPathResource("/pilav.xml").getFile();
+        //copy
+        File recipeWriting = recipeBookLocation.newFile("pilav.xml.writing");
+        FileUtils.copyFile(resource, recipeWriting);
+        //then rename
+        final File outFile = recipeBookLocation.newFile("pilav.xml");
+        recipeWriting.renameTo(outFile);
 
-		final Message<File> message = (Message<File>) test.receive(2000);
-		assertThat(message, is(notNullValue()));
-		final File payload = message.getPayload();
-		assertThat(payload.getPath(), is(outFile.getPath()));
-	}
+        final Message<File> message = (Message<File>) test.receive(2000);
+        assertThat(message, is(notNullValue()));
+        final File payload = message.getPayload();
+        assertThat(payload.getPath(), is(outFile.getPath()));
+    }
 }

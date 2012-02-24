@@ -11,13 +11,13 @@ public class PaymentFieldSetMapper implements FieldSetMapper<Payment> {
 
     @Override
     public Payment mapFieldSet(FieldSet fieldSet) throws BindException {
-       Payment payment = new Payment();
+        Payment payment = new Payment();
 
-       payment.setSourceAccountNo(fieldSet.readString("source"));
-       payment.setDestinationAccountNo(fieldSet.readString("destination"));
-       payment.setAmount(fieldSet.readBigDecimal("amount"));
-       payment.setDate(fieldSet.readDate("date"));
+        payment.setSourceAccountNo(fieldSet.readString("source"));
+        payment.setDestinationAccountNo(fieldSet.readString("destination"));
+        payment.setAmount(fieldSet.readBigDecimal("amount"));
+        payment.setDate(fieldSet.readDate("date"));
 
-       return payment;
+        return payment;
     }
 }

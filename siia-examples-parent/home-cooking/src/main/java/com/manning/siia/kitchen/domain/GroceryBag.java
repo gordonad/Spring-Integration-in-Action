@@ -8,9 +8,9 @@ import java.util.Set;
  */
 public class GroceryBag<T extends Product> {
 
-	private Set<T> items = Sets.newHashSet();
+    private Set<T> items = Sets.newHashSet();
 
-	public void put(T item) {
+    public void put(T item) {
         items.add(item);
     }
 
@@ -18,8 +18,8 @@ public class GroceryBag<T extends Product> {
         return items;
     }
 
-	@Override
-	public String toString() {
-		return "GroceryBag[" + items + "]";
-	}
+    @Override
+    public String toString() {
+        return "GroceryBag[" + items + "]";
+    }
 }

@@ -9,15 +9,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 /**
  * @author Marius Bogoevici
  */
-public class PaymentJobExecutionListener extends JobExecutionListenerSupport
-{
-   @Autowired @Qualifier("notificationExecutionsListener")
-   JobExecutionListener jobExecutionListenerGateway;
+public class PaymentJobExecutionListener extends JobExecutionListenerSupport {
+    @Autowired
+    @Qualifier("notificationExecutionsListener")
+    JobExecutionListener jobExecutionListenerGateway;
 
-   @Override
-   public void afterJob(JobExecution jobExecution)
-   {
-      System.out.println("received ...");
-      jobExecutionListenerGateway.afterJob(jobExecution);
-   }
+    @Override
+    public void afterJob(JobExecution jobExecution) {
+        System.out.println("received ...");
+        jobExecutionListenerGateway.afterJob(jobExecution);
+    }
 }

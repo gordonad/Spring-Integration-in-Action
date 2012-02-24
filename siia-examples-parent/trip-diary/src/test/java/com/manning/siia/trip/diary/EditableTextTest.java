@@ -15,11 +15,12 @@
  */
 package com.manning.siia.trip.diary;
 
-import org.junit.Test;
 import org.junit.Before;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-import static com.manning.siia.trip.diary.TextChanges.*;
+import org.junit.Test;
+
+import static com.manning.siia.trip.diary.TextChanges.insertion;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Iwein Fuld

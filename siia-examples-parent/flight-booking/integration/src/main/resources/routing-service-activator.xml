@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/integration"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-			http://www.springframework.org/schema/beans/spring-beans.xsd
-			http://www.springframework.org/schema/integration
-			http://www.springframework.org/schema/integration/spring-integration.xsd">
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/integration"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+			  http://www.springframework.org/schema/beans/spring-beans.xsd
+			  http://www.springframework.org/schema/integration
+			  http://www.springframework.org/schema/integration/spring-integration.xsd">
 
     <channel id="payments"/>
 
-    <service-activator input-channel="payments" method="processPayment">
-        <beans:bean
-            class="siia.booking.domain.payment.PaymentManager"/>
+    <service-activator input-channel="payments"
+                       method="processPayment">
+        <beans:bean class="com.manning.siia.booking.domain.payment.PaymentManager"/>
     </service-activator>
 
 </beans:beans>

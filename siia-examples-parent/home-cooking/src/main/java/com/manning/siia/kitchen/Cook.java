@@ -20,33 +20,33 @@ import java.util.List;
  */
 public class Cook {
 
-	@Aggregator
-	public Meal prepareMeal(List<Message<Product>> products) {
-		Recipe recipe = (Recipe) products.get(0).getHeaders().get("recipe");
-		Meal meal = new Meal(recipe);
-		for (Message<Product> message : products) {
-			meal.cook(message.getPayload());
-		}
-		return meal;
-	}
+    @Aggregator
+    public Meal prepareMeal(List<Message<Product>> products) {
+        Recipe recipe = (Recipe) products.get(0).getHeaders().get("recipe");
+        Meal meal = new Meal(recipe);
+        for (Message<Product> message : products) {
+            meal.cook(message.getPayload());
+        }
+        return meal;
+    }
 
-	@CorrelationStrategy
-	public Object correlatingRecipeFor(Message<Product> message) {
-		return message.getHeaders().get("recipe");
-	}
+    @CorrelationStrategy
+    public Object correlatingRecipeFor(Message<Product> message) {
+        return message.getHeaders().get("recipe");
+    }
 
-	@ReleaseStrategy
-	public boolean canCookMeal(List<Message<?>> products) {
-		Recipe recipe = (Recipe) products.get(0).getHeaders().get("recipe");
-		return recipe.isSatisfiedBy(productsFromMessages(products));
-	}
+    @ReleaseStrategy
+    public boolean canCookMeal(List<Message<?>> products) {
+        Recipe recipe = (Recipe) products.get(0).getHeaders().get("recipe");
+        return recipe.isSatisfiedBy(productsFromMessages(products));
+    }
 
-	private ArrayList<Product> productsFromMessages(List<Message<?>> group) {
-		return new ArrayList<Product>(
-				Collections2.transform(group, new Function<Message<?>, Product>() {
-					public Product apply(Message<?> from) {
-						return (Product) from.getPayload();
-					}
-				}));
-	}
+    private ArrayList<Product> productsFromMessages(List<Message<?>> group) {
+        return new ArrayList<Product>(
+                Collections2.transform(group, new Function<Message<?>, Product>() {
+                    public Product apply(Message<?> from) {
+                        return (Product) from.getPayload();
+                    }
+                }));
+    }
 }

@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class OkResponse {
 
 
-    public String toString(){
+    public String toString() {
         return "Ok";
     }
 

@@ -1,8 +1,5 @@
 package com.manning.siia.kitchen.domain;
 
-import com.manning.siia.kitchen.domain.Ingredient;
-import com.manning.siia.kitchen.domain.Product;
-import com.manning.siia.kitchen.domain.Recipe;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -18,22 +15,22 @@ import static org.mockito.Mockito.mock;
  */
 public class RecipeTest {
 
-	private final Recipe recipe = new Recipe("grub");
+    private final Recipe recipe = new Recipe("grub");
 
-	@Test
-	public void shouldNotBeSatisfiedByEmptyList() throws Exception {
-		Ingredient ingredient = mock(Ingredient.class);
-		recipe.addIngredient(ingredient);
-		assertThat(recipe.isSatisfiedBy(Collections.<Product>emptyList()), is(false));
-	}
-	
-	@Test
-	public void shouldBeSatisfiedByCorrectIngredients() throws Exception {
-		Ingredient ingredient = mock(Ingredient.class);
-		Product product = mock(Product.class);
-		given(ingredient.isSatisfiedBy(product)).willReturn(true);
+    @Test
+    public void shouldNotBeSatisfiedByEmptyList() throws Exception {
+        Ingredient ingredient = mock(Ingredient.class);
+        recipe.addIngredient(ingredient);
+        assertThat(recipe.isSatisfiedBy(Collections.<Product>emptyList()), is(false));
+    }
 
-		recipe.addIngredient(ingredient);
-		assertThat(recipe.isSatisfiedBy(Arrays.asList(product)), is(true));
-	}
+    @Test
+    public void shouldBeSatisfiedByCorrectIngredients() throws Exception {
+        Ingredient ingredient = mock(Ingredient.class);
+        Product product = mock(Product.class);
+        given(ingredient.isSatisfiedBy(product)).willReturn(true);
+
+        recipe.addIngredient(ingredient);
+        assertThat(recipe.isSatisfiedBy(Arrays.asList(product)), is(true));
+    }
 }

@@ -12,16 +12,16 @@ import java.util.List;
  */
 public class Cupboard {
 
-	private List<Product> stock = Lists.newArrayList();
+    private List<Product> stock = Lists.newArrayList();
 
-	@PostConstruct
-	public void loadContents() {
-		// TODO
-	}
+    @PostConstruct
+    public void loadContents() {
+        // TODO
+    }
 
-	@Filter
-	public boolean inStock(Ingredient ingredient) {
-		// TODO
-		return false;
-	}
+    @Filter
+    public boolean inStock(Ingredient ingredient) {
+        // TODO
+        return false;
+    }
 }

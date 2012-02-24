@@ -10,10 +10,10 @@ import org.springframework.integration.annotation.Transformer;
  */
 public class GreenGrocer {
 
-	@Transformer
-	public Vegetable sell(Ingredient ingredient) {
-		return new Vegetable(ingredient.getName(), ingredient.getAmount());
-	}
+    @Transformer
+    public Vegetable sell(Ingredient ingredient) {
+        return new Vegetable(ingredient.getName(), ingredient.getAmount());
+    }
 
     @Transformer
     public GroceryBag<Vegetable> sell(ShoppingList shoppingList) {

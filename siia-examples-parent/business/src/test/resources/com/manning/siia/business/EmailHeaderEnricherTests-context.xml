@@ -3,22 +3,27 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="http://www.springframework.org/schema/integration"
              xmlns:context="http://www.springframework.org/schema/context"
-             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd
+              http://www.springframework.org/schema/integration
+              http://www.springframework.org/schema/integration/spring-integration.xsd
+              http://www.springframework.org/schema/context
+              http://www.springframework.org/schema/context/spring-context.xsd">
 
-       <context:component-scan base-package="com.manning.siia.business"/>
+    <context:component-scan base-package="com.manning.siia.business"/>
 
-       <channel id="input"/>
+    <channel id="input"/>
 
-       <channel id="output">
-           <queue/>
-       </channel>
+    <channel id="output">
+        <queue/>
+    </channel>
 
-       <transformer input-channel="input" output-channel="output" ref="emailHeaderEnricher" method="populateEmailHeader"/>
+    <transformer input-channel="input"
+                 output-channel="output"
+                 ref="emailHeaderEnricher"
+                 method="populateEmailHeader"/>
 
-       <beans:bean class="siia.business.StubFlightScheduler"/>
+    <beans:bean class="com.manning.siia.business.StubFlightScheduler"/>
 
-       <beans:bean class="siia.business.StubFrequentFlyerService"/>
-
+    <beans:bean class="com.manning.siia.business.StubFrequentFlyerService"/>
 </beans:beans>

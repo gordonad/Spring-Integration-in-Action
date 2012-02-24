@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:i="http://www.springframework.org/schema/integration"
+       xmlns:int="http://www.springframework.org/schema/integration"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-           http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
-           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-	<import resource="recipebook.xml"/>
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/integration
+         http://www.springframework.org/schema/integration/spring-integration.xsd
+         http://www.springframework.org/schema/util
+         http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<i:channel id="recipes"/>
+    <import resource="recipebook.xml"/>
 
-	<import resource="split-recipe-flow.xml"/>
+    <int:channel id="recipes"/>
 
-	<i:channel id="ingredients"/>
+    <import resource="split-recipe-flow.xml"/>
 
-	<import resource="create-shoppinglists-flow.xml"/>
+    <int:channel id="ingredients"/>
 
-	<i:channel id="shoppinglists"/>
+    <import resource="create-shoppinglists-flow.xml"/>
 
-	<import resource="shopping-flow.xml"/>
+    <int:channel id="shoppinglists"/>
 
-	<i:channel id="grocerybags"/>
+    <import resource="shopping-flow.xml"/>
 
-	<import resource="grocery-unpacker-flow.xml"/>
+    <int:channel id="grocerybags"/>
 
-	<i:channel id="products"/>
+    <import resource="grocery-unpacker-flow.xml"/>
 
-	<import resource="kitchen.xml"/>
+    <int:channel id="products"/>
 
-	<i:channel id="meals">
-		<i:queue capacity="50"/>
-	</i:channel>
+    <import resource="kitchen.xml"/>
 
-	<i:poller default="true" fixed-rate="1000"/>
+    <int:channel id="meals">
+        <int:queue capacity="50"/>
+    </int:channel>
 
-	<util:properties id="conf" location="kitchen.properties"/>
+    <int:poller default="true" fixed-rate="1000"/>
+
+    <util:properties id="conf" location="kitchen.properties"/>
 </beans>

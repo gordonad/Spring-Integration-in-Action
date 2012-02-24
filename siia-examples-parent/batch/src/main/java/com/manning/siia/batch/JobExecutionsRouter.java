@@ -7,18 +7,13 @@ import org.springframework.integration.annotation.Router;
 /**
  * @author Marius Bogoevici
  */
-public class JobExecutionsRouter
-{
-   @Router
-   public String routeJobExecution(JobExecution jobExecution)
-   {
-      if (jobExecution.getStatus().equals(BatchStatus.FAILED))
-      {
-         return "jobRestarts";
-      }
-      else
-      {
-         return "notifiableExecutions";
-      }
-   }
+public class JobExecutionsRouter {
+    @Router
+    public String routeJobExecution(JobExecution jobExecution) {
+        if (jobExecution.getStatus().equals(BatchStatus.FAILED)) {
+            return "jobRestarts";
+        } else {
+            return "notifiableExecutions";
+        }
+    }
 }

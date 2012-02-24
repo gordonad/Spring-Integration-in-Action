@@ -1,10 +1,9 @@
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.batch.core.*;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,30 +20,30 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"classpath:batch-config.xml", "classpath:si-config.xml"})
 public class BatchTest {
 
-  @Autowired
-  private JobLauncher launcher;
+    @Autowired
+    private JobLauncher launcher;
 
-  @Autowired
-  private Job job;
+    @Autowired
+    private Job job;
 
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-  @Autowired @Qualifier("statuses")
-  private QueueChannel statusesChannel;
+    @Autowired
+    @Qualifier("statuses")
+    private QueueChannel statusesChannel;
 
-  @Test
-  public void runBatch() throws Exception
-  {
-      //120 s should provide enough time for the poller to detect the file and process it
-      JobExecution jobExecution = ((Message<JobExecution>)statusesChannel.receive(120000)).getPayload();
+    @Test
+    public void runBatch() throws Exception {
+        //120 s should provide enough time for the poller to detect the file and process it
+        JobExecution jobExecution = ((Message<JobExecution>) statusesChannel.receive(120000)).getPayload();
 
-      ExitStatus exitStatus = jobExecution.getExitStatus();
+        ExitStatus exitStatus = jobExecution.getExitStatus();
 
-      Assert.assertEquals(exitStatus, ExitStatus.COMPLETED);
+        Assert.assertEquals(exitStatus, ExitStatus.COMPLETED);
 
-      int count = jdbcTemplate.queryForInt("select count(*) from payments");
+        int count = jdbcTemplate.queryForInt("select count(*) from payments");
 
-      Assert.assertEquals(27, count);
-  }
+        Assert.assertEquals(27, count);
+    }
 }

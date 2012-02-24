@@ -24,5 +24,6 @@ package com.manning.siia.trip.diary;
  */
 public interface TextChange {
     String applyTo(String original);
+
     int getVersion();
 }

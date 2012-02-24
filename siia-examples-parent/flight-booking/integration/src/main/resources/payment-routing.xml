@@ -3,45 +3,44 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="http://www.springframework.org/schema/integration"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
-			http://www.springframework.org/schema/beans/spring-beans.xsd
-			http://www.springframework.org/schema/integration
-			http://www.springframework.org/schema/integration/spring-integration.xsd">
+			  http://www.springframework.org/schema/beans/spring-beans.xsd
+			  http://www.springframework.org/schema/integration
+			  http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-  <channel id="payments"/>
+    <channel id="payments"/>
 
-  <channel id="invoices">
-    <queue/>
-  </channel>
+    <channel id="invoices">
+        <queue/>
+    </channel>
 
-  <channel id="credit-card-payments"/>
+    <channel id="credit-card-payments"/>
 
-  <channel id="paypal-payments">
-    <queue/>
-  </channel>
+    <channel id="paypal-payments">
+        <queue/>
+    </channel>
 
-  <router method="routePaymentSettlement" input-channel="payments">
-    <beans:bean
-        class="siia.booking.integration.routing.PaymentSettlementRouter"/>
-  </router>
+    <router method="routePaymentSettlement" input-channel="payments">
+        <beans:bean
+                class="com.manning.siia.booking.integration.routing.PaymentSettlementRouter"/>
+    </router>
 
-  <channel id="VISA-payments">
-    <queue/>
-  </channel>
+    <channel id="VISA-payments">
+        <queue/>
+    </channel>
 
-  <channel id="AMERICAN_EXPRESS-payments">
-    <queue/>
-  </channel>
+    <channel id="AMERICAN_EXPRESS-payments">
+        <queue/>
+    </channel>
 
-  <channel id="MASTERCARD-payments">
-    <queue/>
-  </channel>
+    <channel id="MASTERCARD-payments">
+        <queue/>
+    </channel>
 
+    <router expression="payload.creditCardType"
+            channel-resolver="creditCardPaymentsChannelResolver"
+            input-channel="credit-card-payments"/>
 
-  <router expression="payload.creditCardType"
-          channel-resolver="creditCardPaymentsChannelResolver"
-          input-channel="credit-card-payments"/>
-
-  <beans:bean id="creditCardPaymentsChannelResolver"
-              class="siia.booking.integration.routing.CreditCardPaymentChannelResolver"/>
+    <beans:bean id="creditCardPaymentsChannelResolver"
+                class="com.manning.siia.booking.integration.routing.CreditCardPaymentChannelResolver"/>
 
 </beans:beans>

@@ -8,15 +8,15 @@ import java.util.List;
  */
 public class ShoppingList {
 
-	private List<Ingredient> items = Lists.newArrayList();
+    private List<Ingredient> items = Lists.newArrayList();
 
-	private Ingredient.Type type;
+    private Ingredient.Type type;
 
-	public ShoppingList(final Ingredient.Type type) {
-		this.type = type;
-	}
+    public ShoppingList(final Ingredient.Type type) {
+        this.type = type;
+    }
 
-	public void addItem(Ingredient ingredient) {
+    public void addItem(Ingredient ingredient) {
         items.add(ingredient);
     }
 
@@ -24,12 +24,12 @@ public class ShoppingList {
         return items;
     }
 
-	public Ingredient.Type getType() {
-		return type;
-	}
+    public Ingredient.Type getType() {
+        return type;
+    }
 
-	@Override
-	public String toString() {
-		return "ShoppingList[" + type + "] with ingredients [" + items + "]";
-	}
+    @Override
+    public String toString() {
+        return "ShoppingList[" + type + "] with ingredients [" + items + "]";
+    }
 }

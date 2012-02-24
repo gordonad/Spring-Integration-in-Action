@@ -1,14 +1,17 @@
 package com.manning.siia.soap;
 
-import siia.booking.domain.Location;
-import siia.booking.domain.trip.Leg;
-import siia.booking.domain.trip.LegQuoteCommand;
+import com.manning.siia.booking.domain.Location;
+import com.manning.siia.booking.domain.trip.Leg;
+import com.manning.siia.booking.domain.trip.LegQuoteCommand;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.ws.client.core.WebServiceOperations;
 
-public class SoapTripTestClient {
-
+public class
+        SoapTripTestClient {
+    private static final Logger logger = LoggerFactory.getLogger(SoapTripTestClient.class);
     private static final CommandBuilder builder = new CommandBuilder();
 
 
@@ -20,7 +23,7 @@ public class SoapTripTestClient {
 
         LegQuoteCommand command = new LegQuoteCommand(builder.buildTestLeg());
         Object result = webServiceOperations.marshalSendAndReceive(command);
-        System.out.println(result);
+        logger.debug(result.toString());
     }
 
 

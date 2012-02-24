@@ -23,11 +23,11 @@ package com.manning.siia.trip.diary;
  *         Time: 2:53:43 PM
  */
 public class TextChanges {
-    public static TextChange deletion(int version, int start, int end){
+    public static TextChange deletion(int version, int start, int end) {
         return new DeletingTextChange(version, start, end);
     }
 
-    public static TextChange insertion(int version, String toInsert, int position){
+    public static TextChange insertion(int version, String toInsert, int position) {
         return new InsertingTextChange(version, toInsert, position);
     }
 

@@ -10,7 +10,7 @@
             <pickupLocation>JFK</pickupLocation>
         </carRental>
         <hotel>
-            <location></location>
+            <location/>
         </hotel>
-     </leg>
+    </leg>
 </trip>

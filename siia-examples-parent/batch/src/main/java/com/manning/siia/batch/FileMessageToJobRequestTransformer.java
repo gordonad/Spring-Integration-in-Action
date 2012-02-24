@@ -1,19 +1,17 @@
 package com.manning.siia.batch;
 
-import java.io.File;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.integration.launch.JobLaunchRequest;
 import org.springframework.integration.Message;
-import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.annotation.Transformer;
+
+import java.io.File;
 
 /**
  * @author Marius Bogoevici
  */
-public class FileMessageToJobRequestTransformer
-{
+public class FileMessageToJobRequestTransformer {
 
     private Job job;
 
@@ -28,10 +26,9 @@ public class FileMessageToJobRequestTransformer
     }
 
     @Transformer
-    public JobLaunchRequest toRequest(Message<File> message)
-    {
+    public JobLaunchRequest toRequest(Message<File> message) {
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
         jobParametersBuilder.addString(fileParameterName, message.getPayload().getAbsolutePath());
-        return new JobLaunchRequest(job,jobParametersBuilder.toJobParameters());
+        return new JobLaunchRequest(job, jobParametersBuilder.toJobParameters());
     }
 }

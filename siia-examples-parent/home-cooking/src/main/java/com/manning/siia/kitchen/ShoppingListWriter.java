@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * I write out shoppinglists, whilst ensuring that on each shoppinglist only ingredients
  * of the same type are added, and we write at least 5 items on a single list.
- * 
+ *
  * @author Jeroen van Erp
  */
 public class ShoppingListWriter implements org.springframework.integration.aggregator.ReleaseStrategy {
@@ -31,8 +31,8 @@ public class ShoppingListWriter implements org.springframework.integration.aggre
         return ingredient.getType();
     }
 
-	@Override
-	public boolean canRelease(final MessageGroup group) {
-		return group.isComplete();
-	}
+    @Override
+    public boolean canRelease(final MessageGroup group) {
+        return group.isComplete();
+    }
 }

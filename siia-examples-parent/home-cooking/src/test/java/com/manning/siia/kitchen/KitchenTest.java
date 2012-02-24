@@ -20,25 +20,25 @@ import static org.junit.Assert.assertThat;
 
 /**
  */
-@ContextConfiguration(locations = "/home-dinner-flow.xml")
+@ContextConfiguration("/home-dinner-flow.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class KitchenTest {
-	@Autowired
-	private MessageChannel recipes;
+    @Autowired
+    private MessageChannel recipes;
 
-	@Autowired
-	private PollableChannel meals;
+    @Autowired
+    private PollableChannel meals;
 
-	@Test
-	public void shouldPrepareMealFromRecipe() {
-		final TimedPollableChannel timed = new TimedPollableChannel(meals);
-		Recipe r = RecipeObjectMother.steak();
-		recipes.send(MessageBuilder.withPayload(r).build());
+    @Test
+    public void shouldPrepareMealFromRecipe() {
+        final TimedPollableChannel timed = new TimedPollableChannel(meals);
+        Recipe r = RecipeObjectMother.steak();
+        recipes.send(MessageBuilder.withPayload(r).build());
 
-		final Message<Meal> message = timed.receive(2500);
-		assertThat("Message was null", message, Matchers.is(notNullValue()));
-		final Meal meal = message.getPayload();
-		assertThat(meal.getRecipe(), is(r));
-		assertThat(meal.isDone(), is(true));
-	}
+        final Message<Meal> message = timed.receive(2500);
+        assertThat("Message was null", message, Matchers.is(notNullValue()));
+        final Meal meal = message.getPayload();
+        assertThat(meal.getRecipe(), is(r));
+        assertThat(meal.isDone(), is(true));
+    }
 }

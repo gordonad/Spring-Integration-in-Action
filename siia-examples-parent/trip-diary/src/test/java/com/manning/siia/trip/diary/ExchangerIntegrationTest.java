@@ -15,9 +15,6 @@
  */
 package com.manning.siia.trip.diary;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -37,6 +34,10 @@ import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
+
 /**
  * @author Iwein Fuld
  *         <p/>
@@ -48,53 +49,53 @@ import java.util.Map;
 @ContextConfiguration
 public class ExchangerIntegrationTest {
 
-	public static TemporaryFolder parent = new TemporaryFolder();
+    public static TemporaryFolder parent = new TemporaryFolder();
 
-	private String processId = ManagementFactory.getRuntimeMXBean().getName();
+    private String processId = ManagementFactory.getRuntimeMXBean().getName();
 
-	@Autowired
-	@Qualifier("incomingChanges")
-	public PollableChannel incomingChanges;
+    @Autowired
+    @Qualifier("incomingChanges")
+    public PollableChannel incomingChanges;
 
-	@Autowired
-	@Qualifier("outgoingChanges")
-	public MessageChannel outgoingChanges;
+    @Autowired
+    @Qualifier("outgoingChanges")
+    public MessageChannel outgoingChanges;
 
-	@Autowired
-	public FileReadingMessageSource fileReader;
+    @Autowired
+    public FileReadingMessageSource fileReader;
 
-	@BeforeClass
-	public static void injectConfig() throws IOException {
-		parent.create();
-		Config.diary.put("store", parent.getRoot().getPath());
-	}
+    @BeforeClass
+    public static void injectConfig() throws IOException {
+        parent.create();
+        Config.diary.put("store", parent.getRoot().getPath());
+    }
 
-	@Test
-	public void shouldParseContext() {
-		// this test is be performed by the fixture (Spring)
-	}
+    @Test
+    public void shouldParseContext() {
+        // this test is be performed by the fixture (Spring)
+    }
 
-	@Test
-	public void fileReaderShouldGetInputDir() {
-		Object inputDir = new DirectFieldAccessor(fileReader).getPropertyValue("directory");
-		System.out.println(inputDir);
-		assertThat(inputDir, is(notNullValue()));
-	}
+    @Test
+    public void fileReaderShouldGetInputDir() {
+        Object inputDir = new DirectFieldAccessor(fileReader).getPropertyValue("directory");
+        System.out.println(inputDir);
+        assertThat(inputDir, is(notNullValue()));
+    }
 
-	@Test(timeout = 10000)
-	public void newChangesArePickedUp() throws Exception {
-		File file = parent.newFile(Long.toString(System.currentTimeMillis()) + processId);
-		System.out.println(file);
-		file.createNewFile();
-			Object inputDir = new DirectFieldAccessor(fileReader).getPropertyValue("directory");
-		System.out.println(inputDir);
-		Message<?> received = incomingChanges.receive();
-		assertThat(received, is(notNullValue()));
-	}
+    @Test(timeout = 10000)
+    public void newChangesArePickedUp() throws Exception {
+        File file = parent.newFile(Long.toString(System.currentTimeMillis()) + processId);
+        System.out.println(file);
+        file.createNewFile();
+        Object inputDir = new DirectFieldAccessor(fileReader).getPropertyValue("directory");
+        System.out.println(inputDir);
+        Message<?> received = incomingChanges.receive();
+        assertThat(received, is(notNullValue()));
+    }
 
-	public static class Config {
-		public static final Map<String, String> diary = new HashMap<String, String>();
+    public static class Config {
+        public static final Map<String, String> diary = new HashMap<String, String>();
 
-		public static final String processId = ManagementFactory.getRuntimeMXBean().getName();
-	}
+        public static final String processId = ManagementFactory.getRuntimeMXBean().getName();
+    }
 }

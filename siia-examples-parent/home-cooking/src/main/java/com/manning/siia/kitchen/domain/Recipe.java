@@ -16,42 +16,42 @@ import java.util.List;
 @XStreamAlias("recipe")
 public class Recipe {
 
-	@XStreamAsAttribute
-	private String name;
+    @XStreamAsAttribute
+    private String name;
 
-	@XStreamImplicit
-	@XStreamAlias("ingredients")
-	private List<Ingredient> ingredients = Lists.newArrayList();
+    @XStreamImplicit
+    @XStreamAlias("ingredients")
+    private List<Ingredient> ingredients = Lists.newArrayList();
 
-	public Recipe(final String name) {
-		this.name = name;
-	}
+    public Recipe(final String name) {
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public List<Ingredient> getIngredients() {
-		return ingredients;
-	}
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
 
-	public void addIngredient(Ingredient i) {
-		ingredients.add(i);
-	}
+    public void addIngredient(Ingredient i) {
+        ingredients.add(i);
+    }
 
-	public Integer itemsOfType(final Ingredient.Type type) {
-		return Collections2.filter(ingredients, new Predicate<Ingredient>() {
-			@Override
-			public boolean apply(final Ingredient input) {
-				return input.getType() == type;
-			}
-		}).size();
-	}
+    public Integer itemsOfType(final Ingredient.Type type) {
+        return Collections2.filter(ingredients, new Predicate<Ingredient>() {
+            @Override
+            public boolean apply(final Ingredient input) {
+                return input.getType() == type;
+            }
+        }).size();
+    }
 
-	public Boolean isSatisfiedBy(final List<Product> products) {
+    public Boolean isSatisfiedBy(final List<Product> products) {
         Collection<Ingredient> unsatisfiedIngredients = findMissingIngredients(products);
         return unsatisfiedIngredients.isEmpty();
-	}
+    }
 
     private Collection<Ingredient> findMissingIngredients(final List<Product> products) {
         return Collections2.filter(ingredients, new Predicate<Ingredient>() {
@@ -66,8 +66,8 @@ public class Recipe {
         });
     }
 
-	@Override
-	public String toString() {
-		return "Recipe[" + name + "]";
-	}
+    @Override
+    public String toString() {
+        return "Recipe[" + name + "]";
+    }
 }

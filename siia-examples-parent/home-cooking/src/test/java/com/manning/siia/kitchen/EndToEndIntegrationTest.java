@@ -22,28 +22,28 @@ import static org.junit.Assert.assertThat;
 /**
  * @author Jeroen van Erp
  */
-@ContextConfiguration(locations = "/TEST-home-dinner-flow.xml")
+@ContextConfiguration(locations = "/home-dinner-flow.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class EndToEndIntegrationTest {
 
-	@Autowired
-	private TemporaryFolder recipeBookLocation;
+    @Autowired
+    private TemporaryFolder recipeBookLocation;
 
     @Autowired
     private PollableChannel meals;
 
     @Test
     public void shouldCreateAMeal() throws IOException {
-	    final TimedPollableChannel timed = new TimedPollableChannel(meals);
-	    File resource = new ClassPathResource("/pilav.xml").getFile();
-		//copy
-		File recipeWriting = recipeBookLocation.newFile("pilav.xml.writing");
-		FileUtils.copyFile(resource, recipeWriting);
-		//then rename
-		recipeWriting.renameTo(recipeBookLocation.newFile("pilav.xml"));
+        final TimedPollableChannel timed = new TimedPollableChannel(meals);
+        File resource = new ClassPathResource("/pilav.xml").getFile();
+        //copy
+        File recipeWriting = recipeBookLocation.newFile("pilav.xml.writing");
+        FileUtils.copyFile(resource, recipeWriting);
+        //then rename
+        recipeWriting.renameTo(recipeBookLocation.newFile("pilav.xml"));
 
         Message<?> message = timed.receive(3500);
-	    assertThat(message, is(notNullValue()));
+        assertThat(message, is(notNullValue()));
         Meal meal = (Meal) message.getPayload();
         assertThat(meal.getRecipe().getName(), is("Pilav"));
         assertThat(meal.isDone(), is(true));

@@ -9,27 +9,27 @@ import java.util.List;
  */
 public class Meal {
 
-	private List<Product> products = Lists.newArrayList();
+    private List<Product> products = Lists.newArrayList();
 
-	private Recipe recipe;
+    private Recipe recipe;
 
-	public Meal(final Recipe recipe) {
-		Assert.notNull(recipe, "Cannot make a meal without a recipe");
-		this.recipe = recipe;
-	}
+    public Meal(final Recipe recipe) {
+        Assert.notNull(recipe, "Cannot make a meal without a recipe");
+        this.recipe = recipe;
+    }
 
-	public void cook(Product ingredient) {
-		products.add(ingredient);
-	}
+    public void cook(Product ingredient) {
+        products.add(ingredient);
+    }
 
-	/**
-	 * @return true when All Ingredients from the Recipe are in the Meal
-	 */
-	public boolean isDone() {
-		return recipe.isSatisfiedBy(products);
-	}
+    /**
+     * @return true when All Ingredients from the Recipe are in the Meal
+     */
+    public boolean isDone() {
+        return recipe.isSatisfiedBy(products);
+    }
 
-	public Recipe getRecipe() {
-		return recipe;
-	}
+    public Recipe getRecipe() {
+        return recipe;
+    }
 }

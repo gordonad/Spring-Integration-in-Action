@@ -1,54 +1,60 @@
 <beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/integration"
-       xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-			http://www.springframework.org/schema/beans/spring-beans.xsd
-			http://www.springframework.org/schema/integration
-			http://www.springframework.org/schema/integration/spring-integration.xsd
-			http://www.springframework.org/schema/integration/xml
-            http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/integration"
+             xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+             xmlns:oxm="http://www.springframework.org/schema/oxm"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+			  http://www.springframework.org/schema/beans/spring-beans.xsd
+			  http://www.springframework.org/schema/integration
+			  http://www.springframework.org/schema/integration/spring-integration.xsd
+			  http://www.springframework.org/schema/integration/xml
+              http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd
+              http://www.springframework.org/schema/oxm
+              http://www.springframework.org/schema/oxm/spring-oxm.xsd">
 
-    <beans:bean id="legMarshaller"
-                class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <beans:property name="classesToBeBound"
-                  value="siia.booking.domain.trip.LegQuoteCommand"/>
-    </beans:bean>
+
+    <oxm:jaxb2-marshaller id="legMarshaller">
+        <oxm:class-to-be-bound name="com.manning.siia.booking.domain.trip.LegQuoteCommand"/>
+    </oxm:jaxb2-marshaller>
 
     <channel id="javaLegQuoteCommands"/>
 
-    <si-xml:marshalling-transformer
-        input-channel="javaLegQuoteCommands"
-        output-channel="xmlLegQuotes"
-        marshaller="legMarshaller"
-        result-transformer="resultToDocumentTransformer"
-        result-type="StringResult"/>
+    <int-xml:marshalling-transformer
+            input-channel="javaLegQuoteCommands"
+            output-channel="xmlLegQuotes"
+            marshaller="legMarshaller"
+            result-transformer="resultToDocumentTransformer"
+            result-type="StringResult"/>
 
     <beans:bean id="resultToDocumentTransformer"
-          class="org.springframework.integration.xml.transformer.ResultToDocumentTransformer"/>
+                class="org.springframework.integration.xml.transformer.ResultToDocumentTransformer"/>
 
     <channel id="xmlLegQuotes"/>
 
-    <si-xml:xslt-transformer
-        input-channel="xmlLegQuotes"
-        output-channel="xslTransformedLegQuote"
-        xsl-resource="classpath:/xsl/enrichCriteriaWithLeg.xsl"/>
+    <int-xml:xslt-transformer
+            input-channel="xmlLegQuotes"
+            output-channel="xslTransformedLegQuote"
+            xsl-resource="classpath:/xsl/enrichCriteriaWithLeg.xsl"/>
 
     <channel id="xslTransformedLegQuote"/>
 
-    <si-xml:xpath-splitter create-documents="true" input-channel="xslTransformedLegQuote" output-channel="splitQuotes">
-        <si-xml:xpath-expression expression="/legQuote/*"/>
-    </si-xml:xpath-splitter>
+    <int-xml:xpath-splitter create-documents="true"
+                            input-channel="xslTransformedLegQuote"
+                            output-channel="splitQuotes">
+        <int-xml:xpath-expression expression="/legQuote/*"/>
+    </int-xml:xpath-splitter>
 
     <channel id="splitQuotes"/>
-    <si-xml:xpath-router id="quoteRequestRouter"
-                         input-channel="splitQuotes"
-                         evaluate-as-string="true">
-        <si-xml:xpath-expression expression="local-name(/*)"/>
-        <si-xml:mapping value="carQuote" channel="carQuoteChannel"/>
-        <si-xml:mapping value="flightQuote" channel="flightQuoteChannel"/>
-        <si-xml:mapping value="hotelQuote" channel="hotelQuoteChannel"/>
-    </si-xml:xpath-router>
+
+    <xpath-router id="quoteRequestRouter"
+                  input-channel="splitQuotes"
+                  evaluate-as-string="true"
+                  xmlns="http://www.springframework.org/schema/integration/xml">
+        <xpath-expression expression="local-name(/*)"/>
+        <mapping value="carQuote" channel="carQuoteChannel"/>
+        <mapping value="flightQuote" channel="flightQuoteChannel"/>
+        <mapping value="hotelQuote" channel="hotelQuoteChannel"/>
+    </xpath-router>
 
     <channel id="carQuoteChannel">
         <queue/>
@@ -60,21 +66,19 @@
 
     <channel id="flightQuoteChannel"/>
 
-    <si-xml:validating-filter
-        id="flightQuoteValidator"
-        input-channel="flightQuoteChannel"
-        output-channel="validFlightQuoteChannel"
-        discard-channel="invalidRequests"
-        schema-location="classpath:xsd/flightQuote.xsd"/>
+    <int-xml:validating-filter
+            id="flightQuoteValidator"
+            input-channel="flightQuoteChannel"
+            output-channel="validFlightQuoteChannel"
+            discard-channel="invalidRequests"
+            schema-location="classpath:xsd/flightQuote.xsd"/>
 
 
     <channel id="validFlightQuoteChannel">
         <queue/>
     </channel>
 
-
     <channel id="hotelQuoteChannel">
         <queue/>
     </channel>
-
 </beans:beans>

@@ -20,29 +20,29 @@ import static org.mockito.Mockito.mock;
  */
 public class CookTest {
 
-	private final Cook cook = new Cook();
-	private Recipe recipe = new Recipe("grub");
+    private final Cook cook = new Cook();
+    private Recipe recipe = new Recipe("grub");
 
-	@Test
-	public void shouldPrepareMeal() throws Exception {
-		List<Message<Product>> messages =
-				Collections.<Message<Product>>singletonList(
-						wrapInMessage(mock(Product.class)));
-		assertThat(cook.prepareMeal(messages).getRecipe(), is(recipe));
-	}
+    @Test
+    public void shouldPrepareMeal() throws Exception {
+        List<Message<Product>> messages =
+                Collections.<Message<Product>>singletonList(
+                        wrapInMessage(mock(Product.class)));
+        assertThat(cook.prepareMeal(messages).getRecipe(), is(recipe));
+    }
 
-	@Test
-	public void shouldCookAllProducts() {
-		Grocery grocery = mock(Grocery.class);
-		Meat meat = mock(Meat.class);
-		List<Message<Product>> products = Arrays.asList(wrapInMessage(grocery), wrapInMessage(meat));
+    @Test
+    public void shouldCookAllProducts() {
+        Grocery grocery = mock(Grocery.class);
+        Meat meat = mock(Meat.class);
+        List<Message<Product>> products = Arrays.asList(wrapInMessage(grocery), wrapInMessage(meat));
 
-		Meal meal = cook.prepareMeal(products);
-		DirectFieldAccessor accessor = new DirectFieldAccessor(meal);
-		assertThat((List<Product>)accessor.getPropertyValue("products"), hasItems(grocery, meat));
-	}
+        Meal meal = cook.prepareMeal(products);
+        DirectFieldAccessor accessor = new DirectFieldAccessor(meal);
+        assertThat((List<Product>) accessor.getPropertyValue("products"), hasItems(grocery, meat));
+    }
 
-	private Message<Product> wrapInMessage(Product grocery) {
-		return MessageBuilder.withPayload(grocery).setHeader("recipe", recipe).build();
-	}
+    private Message<Product> wrapInMessage(Product grocery) {
+        return MessageBuilder.withPayload(grocery).setHeader("recipe", recipe).build();
+    }
 }

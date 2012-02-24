@@ -3,35 +3,29 @@ package com.manning.siia.batch;
 /**
  * @author Marius Bogoevici
  */
-public class Notification
-{
-   private String message;
+public class Notification {
+    private String message;
 
-   private boolean failure;
+    private boolean failure;
 
-   public Notification(String message, boolean failure)
-   {
-      this.message = message;
-      this.failure = failure;
-   }
+    public Notification(String message, boolean failure) {
+        this.message = message;
+        this.failure = failure;
+    }
 
-   public String getMessage()
-   {
-      return message;
-   }
+    public String getMessage() {
+        return message;
+    }
 
-   public void setMessage(String message)
-   {
-      this.message = message;
-   }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-   public boolean isFailure()
-   {
-      return failure;
-   }
+    public boolean isFailure() {
+        return failure;
+    }
 
-   public void setFailure(boolean failure)
-   {
-      this.failure = failure;
-   }
+    public void setFailure(boolean failure) {
+        this.failure = failure;
+    }
 }
